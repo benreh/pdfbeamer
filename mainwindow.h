@@ -11,6 +11,7 @@ public:
 	wxPanel *m_parent;
 
 	void OnQuit(wxCommandEvent& WXUNUSED(event));
+	void OnOpen(wxCommandEvent& WXUNUSED(event));
 
  	wxMenuBar *menubar;
 	wxMenu *file;

@@ -7,12 +7,15 @@ Mainwindow::Mainwindow(const wxString& title)
 
 	menubar = new wxMenuBar;
 	file = new wxMenu;
+	file->Append(wxID_OPEN, wxT("&Open"));
+	file->AppendSeparator();
 	file->Append(wxID_EXIT, wxT("&Quit"));
+	
 	menubar->Append(file, wxT("&File"));
 	SetMenuBar(menubar);
 
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnQuit));
-
+	Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnOpen));
 
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
@@ -29,5 +32,17 @@ Mainwindow::Mainwindow(const wxString& title)
 }
 
 void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {
-  Close(true);
+	wxPuts(wxT("quit by menu"));
+ 	Close(true);
+}
+
+void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
+	wxFileDialog * openFileDialog = new wxFileDialog(this, wxT("Select presentation"), wxT(""), wxT(""), wxT("PDF files |*.pdf;*.PDF"));
+	
+	if (openFileDialog->ShowModal() == wxID_OK){
+		wxString fileName = openFileDialog->GetPath();
+		wxPuts(fileName);
+ 	}
+
+	
 }
