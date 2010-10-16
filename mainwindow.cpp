@@ -19,8 +19,8 @@ Mainwindow::Mainwindow(const wxString& title)
 
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
-	m_lp = new LeftPanel(m_parent);
-	m_rp = new RightPanel(m_parent);
+	m_lp = new LeftPanel(m_parent, &pdf);
+	m_rp = new RightPanel(m_parent,&pdf);
 
 	hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
 	hbox->Add(m_rp, 1, wxEXPAND | wxALL, 5);
@@ -42,8 +42,16 @@ void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 	if (openFileDialog->ShowModal() == wxID_OK){
 		wxString filename = openFileDialog->GetPath();
 		wxPuts(filename);
-		pdf.load((char*) filename.c_str());
+		pdf.load(filename.mb_str());
  	}
-
+	update();
 	
+}
+void Mainwindow::OnUpdate(wxCommandEvent& event) {
+
+	event.Skip();
+}
+void Mainwindow::update() {
+	m_lp->update();
+	m_rp->update();
 }

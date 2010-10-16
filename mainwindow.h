@@ -17,6 +17,9 @@ public:
  	wxMenuBar *menubar;
 	wxMenu *file;
 
+	void OnUpdate(wxCommandEvent& event);
+	void update();
+
 	PDF pdf;
 
 };
