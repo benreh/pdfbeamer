@@ -2,19 +2,32 @@
 
 
 Mainwindow::Mainwindow(const wxString& title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180)) {
-m_parent = new wxPanel(this, wxID_ANY);
+ : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180)) {
+	m_parent = new wxPanel(this, wxID_ANY);
 
-  wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+	menubar = new wxMenuBar;
+	file = new wxMenu;
+	file->Append(wxID_EXIT, wxT("&Quit"));
+	menubar->Append(file, wxT("&File"));
+	SetMenuBar(menubar);
 
-  m_lp = new LeftPanel(m_parent);
-  m_rp = new RightPanel(m_parent);
+	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnQuit));
 
-  hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
-  hbox->Add(m_rp, 1, wxEXPAND | wxALL, 5);
 
-  m_parent->SetSizer(hbox);
+	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
-  this->Centre();
+	m_lp = new LeftPanel(m_parent);
+	m_rp = new RightPanel(m_parent);
 
+	hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
+	hbox->Add(m_rp, 1, wxEXPAND | wxALL, 5);
+
+	m_parent->SetSizer(hbox);
+
+	this->Centre();
+
+}
+
+void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {
+  Close(true);
 }

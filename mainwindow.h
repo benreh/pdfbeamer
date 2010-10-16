@@ -4,10 +4,15 @@
 class Mainwindow : public wxFrame
 {
 public:
-    Mainwindow(const wxString& title);
+	Mainwindow(const wxString& title);
 
 	LeftPanel *m_lp;
-    RightPanel *m_rp;
-    wxPanel *m_parent;
+	RightPanel *m_rp;
+	wxPanel *m_parent;
+
+	void OnQuit(wxCommandEvent& WXUNUSED(event));
+
+ 	wxMenuBar *menubar;
+	wxMenu *file;
 
 };
