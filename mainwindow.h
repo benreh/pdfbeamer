@@ -1,4 +1,5 @@
 #include <wx/wx.h>
+#include "pdf.h"
 #include "panel.h"
 
 class Mainwindow : public wxFrame
@@ -15,5 +16,7 @@ public:
 
  	wxMenuBar *menubar;
 	wxMenu *file;
+
+	PDF pdf;
 
 };

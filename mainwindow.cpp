@@ -40,8 +40,9 @@ void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 	wxFileDialog * openFileDialog = new wxFileDialog(this, wxT("Select presentation"), wxT(""), wxT(""), wxT("PDF files |*.pdf;*.PDF"));
 	
 	if (openFileDialog->ShowModal() == wxID_OK){
-		wxString fileName = openFileDialog->GetPath();
-		wxPuts(fileName);
+		wxString filename = openFileDialog->GetPath();
+		wxPuts(filename);
+		pdf.load((char*) filename.c_str());
  	}
 
 	
