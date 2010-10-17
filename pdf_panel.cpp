@@ -7,6 +7,7 @@ PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf, bool presentationmode)
     pm=presentationmode;
  	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(0, 0));
 	page=1;
+	black=false;
  	pdf=newpdf;
  	if (pm) {
 		SetBackgroundColour(wxColour(0,0,0));
@@ -43,7 +44,8 @@ void PDFPanel::OnResize(wxSizeEvent &e) {
 
 void PDFPanel::OnPaint(wxPaintEvent& event) {
 	wxPaintDC dc(this);
-
+	if (black)
+		return;
 	int iw, ih;
 
 	// center view

@@ -16,6 +16,7 @@ public:
 	void update();
 	int page;
 	bool pm;
+	bool black;
 
 private:
 	PDF * pdf;

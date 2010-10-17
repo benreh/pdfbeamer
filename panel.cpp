@@ -8,13 +8,31 @@ LeftPanel::LeftPanel(wxPanel * parent, PDF * pdf)
        : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN) {
     m_parent = parent;
 	
-	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *hbox1 = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *hbox2 = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
 
 	pdfpanel = new PDFPanel(this, pdf);
 
-	hbox->Add(pdfpanel, 1, wxEXPAND | wxALL, 5);
+	vbox->Add(pdfpanel, 10, wxEXPAND | wxALL, 0);
 
-	SetSizer(hbox);
+	prevb = new wxButton(this, ID_PREV, wxT("<< prev"));
+	nextb = new wxButton(this, ID_NEXT, wxT("next >>"));
+	blackb = new wxToggleButton(this, ID_BLACK, wxT("black"));
+	
+	hbox1->Add(prevb, 1, wxEXPAND | wxALL, 5);
+	hbox1->Add(nextb, 1, wxEXPAND | wxALL, 5);
+	
+	hbox2->Add(blackb, 1, wxEXPAND | wxALL, 5);
+
+	vbox->Add(hbox1, 1, wxEXPAND | wxALL, 0);
+	vbox->Add(hbox2, 1, wxEXPAND | wxALL, 0);
+	//~ vbox->SetSizeHints(this);
+	SetSizer(vbox);
+
+	Connect(ID_PREV, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LeftPanel::OnPrevB));
+	Connect(ID_NEXT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(LeftPanel::OnNextB));
+	Connect(ID_BLACK, wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler(LeftPanel::OnBlackB));
 
 	this->Centre();
 }
@@ -26,6 +44,21 @@ void LeftPanel::OnUpdate(wxCommandEvent& event) {
 void LeftPanel::update(){
 	pdfpanel->update();
 }
+
+void LeftPanel::OnBlackB(wxCommandEvent & WXUNUSED(event)) {
+	Mainwindow * mw = (Mainwindow *) m_parent->GetParent();
+	mw->beamer->pdfpanel->black=blackb->GetValue();
+	mw->beamer->pdfpanel->update();
+}
+void LeftPanel::OnNextB(wxCommandEvent & WXUNUSED(event)) {
+	Mainwindow * mw = (Mainwindow *) m_parent->GetParent();
+	mw->show(pdfpanel->page+1);
+}
+void LeftPanel::OnPrevB(wxCommandEvent & WXUNUSED(event)){
+	Mainwindow * mw = (Mainwindow *) m_parent->GetParent();
+	mw->show(pdfpanel->page-1);
+}
+
 
 
 RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
@@ -43,12 +76,12 @@ RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
 	slider = new wxSlider(this, ID_SLIDER, 1, 1, 1);
 	vbox->Add(slider, 1, wxEXPAND | wxALL, 0);
 
-	showb = new wxButton(this, wxID_ANY, wxT("<< show"), wxPoint(20, 20));
+	showb = new wxButton(this, ID_SHOW, wxT("<< show"), wxPoint(20, 20));
 	vbox->Add(showb,1,wxEXPAND | wxALL,0);
 	vbox->SetSizeHints(this);
 	SetSizer(vbox);
 	Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, wxScrollEventHandler(RightPanel::OnScroll));
-	Connect(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(RightPanel::OnShowB));
+	Connect(ID_SHOW, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(RightPanel::OnShowB));
 	showb->SetFocus();
 }
 void RightPanel::OnUpdate(wxCommandEvent& event) {

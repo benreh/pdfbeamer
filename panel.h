@@ -3,7 +3,7 @@
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include "pdf_panel.h"
-
+#include <wx/tglbtn.h>
 
 class LeftPanel : public wxPanel {
 public:
@@ -11,6 +11,12 @@ public:
 	PDFPanel * pdfpanel;
 	void OnUpdate(wxCommandEvent& event);
 	void update();
+	wxButton * nextb;
+	wxButton * prevb;
+	wxToggleButton * blackb;
+	void OnNextB(wxCommandEvent & WXUNUSED(event));
+	void OnPrevB(wxCommandEvent & WXUNUSED(event));
+	void OnBlackB(wxCommandEvent & WXUNUSED(event));
 };
 
 class RightPanel : public wxPanel {
@@ -27,4 +33,8 @@ public:
 
 };
 const int ID_SLIDER = 100;
+const int ID_SHOW = 101;
+const int ID_PREV = 102;
+const int ID_NEXT = 103;
+const int ID_BLACK = 104;
 #endif
