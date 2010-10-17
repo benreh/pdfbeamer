@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+
+#define MIN(A,B) A>B ? B : A
+
 PDF::PDF() {
 	doc=NULL;
 	output_dev=NULL;
@@ -56,25 +59,17 @@ int PDF::n_pages() {
 
 }
 void PDF::render(wxBitmap & bitmap, int w, int h, int page) {
-	const double dpi = 30; //get_pdf_doc_dpi(width_inch(page_nr), height_inch(page_nr), width, height);
+	page=limitpage(page);
 
-
-	doc->displayPage(output_dev, limitpage(page), dpi, dpi, 0, gFalse, gFalse, gFalse);
+	double dpi_w = 72*w/doc->getPageMediaWidth(page); 
+	double dpi_h = 72*h/doc->getPageMediaHeight(page); 
+	double dpi = MIN(dpi_w,dpi_h);
+	
+	doc->displayPage(output_dev, page, dpi, dpi, 0, gFalse, gFalse, gFalse);
 	SplashBitmap *bmp = output_dev->getBitmap();
 	if (!bmp)
         std::cerr << "error in SplashBitmap" << std::endl;
 
-	std::cerr << "bmp" << bmp->getWidth() << "x" << bmp->getHeight() << " row-size:" << bmp->getRowSize()<< std::endl;
-	//~ std::cerr << "w " << w << " h" << h << std::endl;
 
-	//~ int s=bmp->getHeight() * bmp->getRowSize();
-	//~ unsigned char * temp = new unsigned char[s];
-
-	//~ std::cerr <<"before memcpy" << std::endl;
-	//~ memcpy(temp, bmp->getDataPtr(), s);
-	//~ std::cerr <<"after memcpy" << std::endl;
 	bitmap = wxBitmap(wxImage(bmp->getWidth(), bmp->getHeight(),(unsigned char * ) bmp->getDataPtr(),true ));
-	//~ bitmap = wxBitmap(wxImage(bmp->getWidth(), bmp->getHeight(),temp));
-	
-	//~ delete temp;
 }

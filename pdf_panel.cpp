@@ -42,13 +42,13 @@ void PDFPanel::OnPaint(wxPaintEvent& event) {
 
 	// center view
 	GetClientSize(&iw, &ih);
-	//~ iw = (iw - slide.GetWidth())/2;
-	//~ ih = (ih - slide.GetHeight())/2;
+	iw = (iw - slide.GetWidth())/2;
+	ih = (ih - slide.GetHeight())/2;
 	//~ std::cerr << iw << " " << ih << std::endl;
 	if (slide.Ok()) {
 		std::cerr << "draw bitmap ok" << std::endl;
 		//~ dc.DrawBitmap(slide, 0, 0, false);
-		dc.DrawBitmap(slide, 0, 0, true);
+		dc.DrawBitmap(slide, iw, ih, true);
 	} else {
 		//~ std::cerr << "bitmap Nok" << std::endl;
 	}
