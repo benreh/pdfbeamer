@@ -34,7 +34,7 @@ bool PDF::load(const char * filename) {
 	//~ std::cerr << filename << " " << n_pages() << std::endl;
 	delete file_name_str;
 	if (!output_dev) {	
-		SplashColor bg_color = {1,0,1};
+		SplashColor bg_color = {0xff,0xff,0xff};
 		output_dev = new SplashOutputDev(splashModeRGB8, 3, gFalse, bg_color);
 	}
 
