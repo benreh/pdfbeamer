@@ -1,9 +1,10 @@
-#ifndef MAINWINDOWS_H
-#define MAINWINDOWS_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 #include <wx/wx.h>
 #include "pdf.h"
 #include "panel.h"
+#include "beamer.h"
 
 class Mainwindow : public wxFrame
 {
@@ -21,6 +22,8 @@ public:
 
  	wxMenuBar *menubar;
 	wxMenu *file;
+
+	Beamer * beamer;
 
 	void OnUpdate(wxCommandEvent& event);
 	void update();

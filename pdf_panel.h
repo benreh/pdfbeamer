@@ -1,3 +1,5 @@
+#ifndef PDF_PANEL_H
+#define PDF_PANEL_H
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include "pdf.h"
@@ -21,3 +23,4 @@ private:
 	DECLARE_EVENT_TABLE()
 	
 };
+#endif

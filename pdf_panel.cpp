@@ -17,7 +17,8 @@ void PDFPanel::OnUpdate(wxCommandEvent& event) {
 
 void PDFPanel::update() {
 	if (!pdf->isLoaded()) {
-		m_text->SetLabel(wxT("No file!"));
+		m_text->SetLabel(wxT(""));
+		//~ m_text->SetLabel(wxT("No file!"));
 		return;
 	}
 	m_text->SetLabel(wxString::Format(wxT("Page %i of %i"), page, pdf->n_pages()));

@@ -3,7 +3,12 @@
 
 Mainwindow::Mainwindow(const wxString& title)
  : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 400)) {
+	
 	m_parent = new wxPanel(this, wxID_ANY);
+
+	beamer = new Beamer(NULL, &pdf);
+	
+	beamer->Show();
 
 	menubar = new wxMenuBar;
 	file = new wxMenu;
@@ -14,6 +19,7 @@ Mainwindow::Mainwindow(const wxString& title)
 	menubar->Append(file, wxT("&File"));
 	SetMenuBar(menubar);
 
+	//~ Connect(wxEVT_CLOSE_WINDOW,  wxCommandEventHandler(Mainwindow::OnQuit));
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnQuit));
 	Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnOpen));
 
@@ -31,7 +37,9 @@ Mainwindow::Mainwindow(const wxString& title)
 }
 
 void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {
-	wxPuts(wxT("quit by menu"));
+	wxPuts(wxT("Quit"));
+	if (beamer)
+		delete beamer;
  	Close(true);
 }
 
@@ -54,11 +62,16 @@ void Mainwindow::OnUpdate(wxCommandEvent& event) {
 void Mainwindow::update() {
 	m_lp->update();
 	m_rp->update();
+	if (beamer)
+		beamer->update();
 }
 void Mainwindow::show(int page) {
 	page=pdf.limitpage(page);
 	int nextpage = pdf.limitpage(page+1);
 	m_lp->pdfpanel->page=page;
+	if (beamer)
+		beamer->pdfpanel->page=page;
+
 	m_rp->slider->SetValue(nextpage);
 	m_rp->pdfpanel->page=nextpage;
 	
