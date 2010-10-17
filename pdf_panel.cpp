@@ -4,7 +4,7 @@
 PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf)
        : wxPanel(parent,-1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN) {
     m_parent = parent;
- 	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(40, 60));
+ 	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(0, 0));
 	page=1;
  	pdf=newpdf;
  	update();
@@ -24,14 +24,12 @@ void PDFPanel::update() {
 	int iw, ih; 
     GetClientSize(&iw,&ih);
     pdf->render(slide, iw, ih, page);
-	//~ slide=wxBitmap();
 
 
     Refresh();
 	
 }
 void PDFPanel::OnResize(wxSizeEvent &e) {
-	//~ std::cerr << "resize" << std::endl;
 	update();
 }
 
@@ -44,14 +42,9 @@ void PDFPanel::OnPaint(wxPaintEvent& event) {
 	GetClientSize(&iw, &ih);
 	iw = (iw - slide.GetWidth())/2;
 	ih = (ih - slide.GetHeight())/2;
-	//~ std::cerr << iw << " " << ih << std::endl;
 	if (slide.Ok()) {
-		std::cerr << "draw bitmap ok" << std::endl;
-		//~ dc.DrawBitmap(slide, 0, 0, false);
 		dc.DrawBitmap(slide, iw, ih, true);
-	} else {
-		//~ std::cerr << "bitmap Nok" << std::endl;
-	}
+	} 
 
 }
 

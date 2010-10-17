@@ -20,7 +20,7 @@ PDF::~PDF() {
 }
 int PDF::limitpage(int page) {
 	if (n_pages()<page)
-		page=n_pages()-1;
+		page=n_pages();
 	if (page<1)
 		page=1;
 	return page;
@@ -31,7 +31,6 @@ int PDF::limitpage(int page) {
 bool PDF::load(const char * filename) {
 	GooString *file_name_str = new GooString(filename);
 	doc = new PDFDoc(file_name_str, NULL, NULL, NULL);
-	//~ std::cerr << filename << " " << n_pages() << std::endl;
 	delete file_name_str;
 	if (!output_dev) {	
 		SplashColor bg_color = {0xff,0xff,0xff};

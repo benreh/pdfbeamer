@@ -1,6 +1,7 @@
 //~ #include <wx/stattext.h>
 #include <wx/wx.h>
 #include <wx/panel.h>
+#include "mainwindow.h"
 #include "panel.h"
 
 LeftPanel::LeftPanel(wxPanel * parent, PDF * pdf)
@@ -30,6 +31,9 @@ void LeftPanel::update(){
 RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
        : wxPanel(parent, wxID_ANY, wxDefaultPosition, 
          wxSize(270, 150), wxBORDER_SUNKEN) {
+
+	m_parent=parent;
+
 	pdf=newpdf;
 	wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
 
@@ -38,9 +42,13 @@ RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
 	vbox->Add(pdfpanel, 10, wxEXPAND | wxALL, 5);
 	slider = new wxSlider(this, ID_SLIDER, 1, 1, 1);
 	vbox->Add(slider, 1, wxEXPAND | wxALL, 0);
+
+	showb = new wxButton(this, wxID_ANY, wxT("<< show"), wxPoint(20, 20));
+	vbox->Add(showb,1,wxEXPAND | wxALL,0);
 	vbox->SetSizeHints(this);
 	SetSizer(vbox);
-	Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, wxScrollEventHandler(RightPanel::OnScroll)); 
+	Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, wxScrollEventHandler(RightPanel::OnScroll));
+	Connect(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(RightPanel::OnShowB));
 }
 void RightPanel::OnUpdate(wxCommandEvent& event) {
 
@@ -54,4 +62,8 @@ void RightPanel::OnScroll(wxScrollEvent& event){
 	pdfpanel->page=slider->GetValue();
 	pdfpanel->update();
 	
+}
+void RightPanel::OnShowB(wxCommandEvent & WXUNUSED(event)) {
+	Mainwindow * mw = (Mainwindow *) m_parent->GetParent();
+	mw->show(pdfpanel->page);
 }

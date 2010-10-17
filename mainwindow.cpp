@@ -2,7 +2,7 @@
 
 
 Mainwindow::Mainwindow(const wxString& title)
- : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 180)) {
+ : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 400)) {
 	m_parent = new wxPanel(this, wxID_ANY);
 
 	menubar = new wxMenuBar;
@@ -54,4 +54,13 @@ void Mainwindow::OnUpdate(wxCommandEvent& event) {
 void Mainwindow::update() {
 	m_lp->update();
 	m_rp->update();
+}
+void Mainwindow::show(int page) {
+	page=pdf.limitpage(page);
+	int nextpage = pdf.limitpage(page+1);
+	m_lp->pdfpanel->page=page;
+	m_rp->slider->SetValue(nextpage);
+	m_rp->pdfpanel->page=nextpage;
+	
+	update();
 }

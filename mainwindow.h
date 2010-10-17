@@ -1,3 +1,6 @@
+#ifndef MAINWINDOWS_H
+#define MAINWINDOWS_H
+
 #include <wx/wx.h>
 #include "pdf.h"
 #include "panel.h"
@@ -14,6 +17,8 @@ public:
 	void OnQuit(wxCommandEvent& WXUNUSED(event));
 	void OnOpen(wxCommandEvent& WXUNUSED(event));
 
+	void show(int page);
+
  	wxMenuBar *menubar;
 	wxMenu *file;
 
@@ -23,3 +28,5 @@ public:
 	PDF pdf;
 
 };
+
+#endif

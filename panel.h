@@ -1,3 +1,5 @@
+#ifndef PANEL_H
+#define PANEL_H
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include "pdf_panel.h"
@@ -17,9 +19,12 @@ public:
 	PDFPanel * pdfpanel;
 	PDF * pdf;
 	wxSlider *slider;
+	wxButton * showb;
 	void OnUpdate(wxCommandEvent& event);
 	void OnScroll(wxScrollEvent& event);
+	void OnShowB(wxCommandEvent & WXUNUSED(event));
 	void update();
 
 };
 const int ID_SLIDER = 100;
+#endif
