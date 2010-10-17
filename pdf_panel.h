@@ -6,7 +6,7 @@
 
 class PDFPanel : public wxPanel {
 public:
-    PDFPanel(wxPanel *parent, PDF * newpdf);
+    PDFPanel(wxPanel *parent, PDF * newpdf, bool presentationmode=false);
 
 
 
@@ -15,6 +15,7 @@ public:
 	void OnResize(wxSizeEvent &e);
 	void update();
 	int page;
+	bool pm;
 
 private:
 	PDF * pdf;

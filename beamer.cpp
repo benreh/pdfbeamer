@@ -6,7 +6,7 @@ Beamer::Beamer(wxFrame* parent, PDF * pdf)
 	 //~ SetBackgroundColour(wxColour(0,0,0));
 	m_parent = new wxPanel(parent, wxID_ANY);
 
-	pdfpanel= new PDFPanel((wxPanel*)this, pdf);
+	pdfpanel= new PDFPanel((wxPanel*)this, pdf, true);
 
 	fs=false;
 

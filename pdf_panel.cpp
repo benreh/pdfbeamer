@@ -1,12 +1,16 @@
 #include <wx/stattext.h>
 #include "pdf_panel.h"
 
-PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf)
-       : wxPanel(parent,-1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN) {
+PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf, bool presentationmode)
+       : wxPanel(parent,-1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_NONE) {
     m_parent = parent;
+    pm=presentationmode;
  	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(0, 0));
 	page=1;
  	pdf=newpdf;
+ 	if (pm) {
+		SetBackgroundColour(wxColour(0,0,0));
+	}
  	update();
 }
 
@@ -21,7 +25,10 @@ void PDFPanel::update() {
 		//~ m_text->SetLabel(wxT("No file!"));
 		return;
 	}
-	m_text->SetLabel(wxString::Format(wxT("Page %i of %i"), page, pdf->n_pages()));
+	else if (!pm) {
+		
+		m_text->SetLabel(wxString::Format(wxT("Page %i of %i"), page, pdf->n_pages()));
+	}
 	int iw, ih; 
     GetClientSize(&iw,&ih);
     pdf->render(slide, iw, ih, page);
