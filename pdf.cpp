@@ -19,7 +19,7 @@ PDF::~PDF() {
 	delete globalParams;
 }
 int PDF::limitpage(int page) {
-	if (n_pages()-1<page)
+	if (n_pages()<page)
 		page=n_pages()-1;
 	if (page<1)
 		page=1;
@@ -61,8 +61,11 @@ int PDF::n_pages() {
 void PDF::render(wxBitmap & bitmap, int w, int h, int page) {
 	page=limitpage(page);
 
-	double dpi_w = 72*w/doc->getPageMediaWidth(page); 
-	double dpi_h = 72*h/doc->getPageMediaHeight(page); 
+	// 72.0 is the magical number falling from the sky
+	//  ...not really, it is some kind of resolution
+	//     no idea, where to obtain it from
+	double dpi_w = 72.0*w/doc->getPageMediaWidth(page); 
+	double dpi_h = 72.0*h/doc->getPageMediaHeight(page); 
 	double dpi = MIN(dpi_w,dpi_h);
 	
 	doc->displayPage(output_dev, page, dpi, dpi, 0, gFalse, gFalse, gFalse);

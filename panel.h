@@ -6,16 +6,20 @@
 class LeftPanel : public wxPanel {
 public:
     LeftPanel(wxPanel *parent, PDF * pdf);
-	PDFPanel * pdfpanel; 
+	PDFPanel * pdfpanel;
 	void OnUpdate(wxCommandEvent& event);
 	void update();
 };
 
 class RightPanel : public wxPanel {
 public:
-    RightPanel(wxPanel *parent, PDF * pdf);
-    PDFPanel * pdfpanel; 
+    RightPanel(wxPanel *parent, PDF * newpdf);
+	PDFPanel * pdfpanel;
+	PDF * pdf;
+	wxSlider *slider;
 	void OnUpdate(wxCommandEvent& event);
+	void OnScroll(wxScrollEvent& event);
 	void update();
 
 };
+const int ID_SLIDER = 100;

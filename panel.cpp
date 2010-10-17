@@ -24,18 +24,34 @@ void LeftPanel::OnUpdate(wxCommandEvent& event) {
 
 void LeftPanel::update(){
 	pdfpanel->update();
-	pdfpanel->update();
 }
 
 
-RightPanel::RightPanel(wxPanel * parent, PDF * pdf)
+RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
        : wxPanel(parent, wxID_ANY, wxDefaultPosition, 
          wxSize(270, 150), wxBORDER_SUNKEN) {
+	pdf=newpdf;
+	wxBoxSizer *vbox = new wxBoxSizer(wxVERTICAL);
+
+	pdfpanel = new PDFPanel(this, pdf);
+
+	vbox->Add(pdfpanel, 10, wxEXPAND | wxALL, 5);
+	slider = new wxSlider(this, ID_SLIDER, 1, 1, 1);
+	vbox->Add(slider, 1, wxEXPAND | wxALL, 0);
+	vbox->SetSizeHints(this);
+	SetSizer(vbox);
+	Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, wxScrollEventHandler(RightPanel::OnScroll)); 
 }
 void RightPanel::OnUpdate(wxCommandEvent& event) {
 
 	event.Skip();
 }
 void RightPanel::update() {
-
+	slider->SetRange(1,pdf->n_pages());
+	pdfpanel->update();
+}
+void RightPanel::OnScroll(wxScrollEvent& event){
+	pdfpanel->page=slider->GetValue();
+	pdfpanel->update();
+	
 }

@@ -12,11 +12,11 @@ public:
 	void OnPaint(wxPaintEvent& event);
 	void OnResize(wxSizeEvent &e);
 	void update();
+	int page;
 
 private:
 	PDF * pdf;
 	wxStaticText *m_text;
-	int page;
 	wxBitmap slide;
 	DECLARE_EVENT_TABLE()
 	
