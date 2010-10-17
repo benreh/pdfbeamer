@@ -1,8 +1,8 @@
 # imgbrowser
 CC          = g++
-CCFLAGS     = -c -Wall -O2 -Funrollloop -ggdb -D REENTRANT $(shell wx-config --cxxflags adv,html,xml,core,base) $(shell pkg-config --cflags poppler)
+CCFLAGS     = -c -Wall -O2 -Funrollloop -ggdb -D REENTRANT $(shell wx-config --cxxflags adv,html,xml,core,base) $(shell pkg-config --cflags poppler-splash)
 #-I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -DHAVE_OPENGL -DSOUND
-LDFLAGS     = -lm -O2  $(shell wx-config --libs ) $(shell pkg-config --libs poppler-cairo)
+LDFLAGS     = -lm -O2  $(shell wx-config --libs ) $(shell pkg-config --libs poppler-splash)
 #-lGL -lGLU  -lSDL -lSDL_image
 CCFLAGS    += -MD -MP -MT $(*F).o -MF dep/$(@F).d
 MY_NAME     = pdfbeamer

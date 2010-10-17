@@ -7,10 +7,17 @@ public:
     PDFPanel(wxPanel *parent, PDF * newpdf);
 
 
+
+	void OnUpdate(wxCommandEvent& event);
+	void OnPaint(wxPaintEvent& event);
+	void OnResize(wxSizeEvent &e);
+	void update();
+
+private:
 	PDF * pdf;
 	wxStaticText *m_text;
 	int page;
-
-	void OnUpdate(wxCommandEvent& event);
-	void update();
+	wxBitmap slide;
+	DECLARE_EVENT_TABLE()
+	
 };

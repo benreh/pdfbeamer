@@ -1,1 +1,4 @@
 *.pdf
+*.o
+pdfbeamer
+dep/
