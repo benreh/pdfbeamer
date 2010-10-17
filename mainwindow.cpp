@@ -28,7 +28,6 @@ Mainwindow::Mainwindow(const wxString& title)
 	m_parent->SetSizer(hbox);
 
 	this->Centre();
-
 }
 
 void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {
@@ -44,6 +43,7 @@ void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 		wxPuts(filename);
 		pdf.load(filename.mb_str());
  	}
+ 	show(1);
 	update();
 	
 }

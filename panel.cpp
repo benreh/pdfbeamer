@@ -49,6 +49,7 @@ RightPanel::RightPanel(wxPanel * parent, PDF * newpdf)
 	SetSizer(vbox);
 	Connect(ID_SLIDER, wxEVT_COMMAND_SLIDER_UPDATED, wxScrollEventHandler(RightPanel::OnScroll));
 	Connect(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(RightPanel::OnShowB));
+	showb->SetFocus();
 }
 void RightPanel::OnUpdate(wxCommandEvent& event) {
 
