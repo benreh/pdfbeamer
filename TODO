@@ -2,11 +2,11 @@ TODOs
 =====
 
 urgent:
--fix Quit
+-fix Quit (done)
 
 essential features:
 - Show presenter on other screen
-- Presenter configuration via menu
+- Presenter configuration via menu (partly done)
 
 bonus features:
 - Caching pages for more performance

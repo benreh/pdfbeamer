@@ -23,7 +23,7 @@ Mainwindow::Mainwindow(const wxString& title)
 	
 	m_parent = new wxPanel(this, wxID_ANY);
 
-	beamer = new Beamer(NULL, &pdf);
+	beamer = new Beamer(NULL, &pdf, this);
 	
 	beamer->Show();
 
@@ -32,13 +32,20 @@ Mainwindow::Mainwindow(const wxString& title)
 	file->Append(wxID_OPEN, wxT("&Open"));
 	file->AppendSeparator();
 	file->Append(wxID_EXIT, wxT("&Quit"));
-	
+
+	presenter = new wxMenu;
+	presenter->Append(ID_restart, wxT("&Restart"));
+
+
 	menubar->Append(file, wxT("&File"));
+	menubar->Append(presenter, wxT("&Presenter"));
 	SetMenuBar(menubar);
 
-	//~ Connect(wxEVT_CLOSE_WINDOW,  wxCommandEventHandler(Mainwindow::OnQuit));
+
+	Connect(wxEVT_CLOSE_WINDOW,  wxCommandEventHandler(Mainwindow::OnQuit));
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnQuit));
 	Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnOpen));
+	Connect(ID_restart, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnRestart));
 
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
@@ -56,8 +63,8 @@ Mainwindow::Mainwindow(const wxString& title)
 void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {
 	wxPuts(wxT("Quit"));
 	if (beamer)
-		delete beamer;
- 	Close(true);
+		beamer->Close();
+ 	Destroy();
 }
 
 void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
@@ -69,6 +76,15 @@ void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
 		pdf.load(filename.mb_str());
  	}
  	show(1);
+	update();
+	
+}
+void Mainwindow::OnRestart(wxCommandEvent& WXUNUSED(event)) {
+	if (beamer) {
+		beamer->Close();
+	}
+	beamer = new Beamer(NULL, &pdf, this);
+	beamer->Show();
 	update();
 	
 }

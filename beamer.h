@@ -24,9 +24,10 @@
 class Beamer : public wxFrame
 {
 public:
-	Beamer(wxFrame* parent, PDF * pdf);
+	Beamer(wxFrame* parent, PDF * pdf, wxFrame* myinoff_parent);
 
-
+	wxFrame* inoff_parent;
+	void OnQuit(wxCommandEvent& event);
 	void OnUpdate(wxCommandEvent& event);
 	void OnHereB(wxCommandEvent & WXUNUSED(event));
 	void update();

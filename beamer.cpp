@@ -15,12 +15,15 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
+#include "mainwindow.h"
 #include "beamer.h"
 
 
-Beamer::Beamer(wxFrame* parent, PDF * pdf)
+Beamer::Beamer(wxFrame* parent, PDF * pdf, wxFrame* myinoff_parent)
  : wxFrame(NULL, wxID_ANY, wxT("Beamer"), wxDefaultPosition, wxSize(200, 100)) {
 	m_parent = new wxPanel(parent, wxID_ANY);
+
+	inoff_parent=myinoff_parent;
 
 	pdfpanel= new PDFPanel((wxPanel*)this, pdf, true);
 
@@ -36,6 +39,7 @@ Beamer::Beamer(wxFrame* parent, PDF * pdf)
 	vbox->Add(hereb, 1, wxEXPAND | wxALL, 0);
 	vbox->Add(pdfpanel, 3, wxEXPAND | wxALL, 0);
 
+	Connect(wxEVT_CLOSE_WINDOW,  wxCommandEventHandler(Beamer::OnQuit));
 	Connect(wxID_ANY, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Beamer::OnHereB));
 
 	vbox->SetSizeHints(this);
@@ -46,6 +50,11 @@ Beamer::Beamer(wxFrame* parent, PDF * pdf)
 void Beamer::OnUpdate(wxCommandEvent& event) {
 
 	event.Skip();
+}
+void Beamer::OnQuit(wxCommandEvent& event) {
+	Mainwindow * mw = (Mainwindow *) inoff_parent;
+	delete mw->beamer;
+	mw->beamer=NULL;
 }
 void Beamer::update() {
 	pdfpanel->update();

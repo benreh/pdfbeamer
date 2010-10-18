@@ -34,11 +34,13 @@ public:
 
 	void OnQuit(wxCommandEvent& WXUNUSED(event));
 	void OnOpen(wxCommandEvent& WXUNUSED(event));
+	void OnRestart(wxCommandEvent& WXUNUSED(event));
 
 	void show(int page);
 
  	wxMenuBar *menubar;
 	wxMenu *file;
+	wxMenu *presenter;
 
 	Beamer * beamer;
 
@@ -48,5 +50,6 @@ public:
 	PDF pdf;
 
 };
+const int ID_restart=201;
 
 #endif
