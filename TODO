@@ -1,3 +1,13 @@
+TODOs
+=====
+
+urgent:
+-fix Quit
+
+essential features:
 - Show presenter on other screen
 - Presenter configuration via menu
+
+bonus features:
 - Caching pages for more performance
+
