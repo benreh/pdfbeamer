@@ -35,8 +35,17 @@ Mainwindow::Mainwindow(const wxString& title)
 
 	presenter = new wxMenu;
 	presenter->Append(ID_restart, wxT("&Restart"));
+	presenter->AppendSeparator();
+	scale = new wxMenu;
+	scale->Append(ID_pre1_1, wxT("reset 1:1"));
+	scale->AppendSeparator();
+	scale->Append(ID_pre16_9, wxT("16:9"));
+	scale->Append(ID_pre9_16, wxT("9:16"));
+	scale->Append(ID_pre4_3, wxT("4:3"));
+	scale->Append(ID_pre3_4, wxT("3:4"));
 
-
+	presenter->AppendSubMenu(scale, wxT("&Scale"));
+	
 	menubar->Append(file, wxT("&File"));
 	menubar->Append(presenter, wxT("&Presenter"));
 	SetMenuBar(menubar);
@@ -46,6 +55,11 @@ Mainwindow::Mainwindow(const wxString& title)
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnQuit));
 	Connect(wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnOpen));
 	Connect(ID_restart, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnRestart));
+	Connect(ID_pre1_1, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale1_1));
+	Connect(ID_pre4_3, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale4_3));
+	Connect(ID_pre3_4, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale3_4));
+	Connect(ID_pre16_9, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale16_9));
+	Connect(ID_pre9_16, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale9_16));
 
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
@@ -58,6 +72,27 @@ Mainwindow::Mainwindow(const wxString& title)
 	m_parent->SetSizer(hbox);
 
 	this->Centre();
+}
+
+void Mainwindow::OnPresenterScale1_1(wxCommandEvent& event) {
+	beamer->pdfpanel->stretch=1.0;
+	beamer->update();
+}
+void Mainwindow::OnPresenterScale4_3(wxCommandEvent& event) {
+	beamer->pdfpanel->stretch*=4.0/3.0;
+	beamer->update();
+}
+void Mainwindow::OnPresenterScale3_4(wxCommandEvent& event) {
+	beamer->pdfpanel->stretch*=3.0/4.0;
+	beamer->update();
+}
+void Mainwindow::OnPresenterScale16_9(wxCommandEvent& event) {
+	beamer->pdfpanel->stretch*=16.0/9.0;
+	beamer->update();
+}
+void Mainwindow::OnPresenterScale9_16(wxCommandEvent& event) {
+	beamer->pdfpanel->stretch*=9.0/16.0;
+	beamer->update();
 }
 
 void Mainwindow::OnQuit(wxCommandEvent& WXUNUSED(event)) {

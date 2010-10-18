@@ -32,6 +32,7 @@ public:
 	int page;
 	bool pm;
 	bool black;
+	double stretch;
 
 private:
 	PDF * pdf;

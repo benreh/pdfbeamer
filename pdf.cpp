@@ -71,7 +71,7 @@ int PDF::n_pages() {
 	return doc->getNumPages();
 
 }
-void PDF::render(wxBitmap & bitmap, int w, int h, int page) {
+void PDF::render(wxBitmap & bitmap, int w, int h, int page, double stretch) {
 	page=limitpage(page);
 
 	// 72.0 is the magical number falling from the sky
@@ -81,7 +81,7 @@ void PDF::render(wxBitmap & bitmap, int w, int h, int page) {
 	double dpi_h = 72.0*h/doc->getPageMediaHeight(page); 
 	double dpi = MIN(dpi_w,dpi_h);
 	
-	doc->displayPage(output_dev, page, dpi, dpi, 0, gFalse, gFalse, gFalse);
+	doc->displayPage(output_dev, page, dpi*stretch, dpi, 0, gFalse, gFalse, gFalse);
 	SplashBitmap *bmp = output_dev->getBitmap();
 	if (!bmp)
         std::cerr << "error in SplashBitmap" << std::endl;

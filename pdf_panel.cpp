@@ -24,6 +24,7 @@ PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf, bool presentationmode)
     pm=presentationmode;
  	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(0, 0));
 	page=1;
+	stretch=1.0;
 	black=false;
  	pdf=newpdf;
  	if (pm) {
@@ -49,7 +50,7 @@ void PDFPanel::update() {
 	}
 	int iw, ih; 
     GetClientSize(&iw,&ih);
-    pdf->render(slide, iw, ih, page);
+    pdf->render(slide, iw, ih, page, stretch);
 
 
     Refresh();

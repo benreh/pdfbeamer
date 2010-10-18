@@ -6,7 +6,7 @@ urgent:
 
 essential features:
 - Show presenter on other screen
-- Presenter configuration via menu (partly done)
+- Presenter configuration via menu (done)
 
 bonus features:
 - Caching pages for more performance

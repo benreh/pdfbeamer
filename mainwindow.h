@@ -34,6 +34,11 @@ public:
 
 	void OnQuit(wxCommandEvent& WXUNUSED(event));
 	void OnOpen(wxCommandEvent& WXUNUSED(event));
+	void OnPresenterScale1_1(wxCommandEvent& event);
+	void OnPresenterScale4_3(wxCommandEvent& event);
+	void OnPresenterScale3_4(wxCommandEvent& event);
+	void OnPresenterScale16_9(wxCommandEvent& event);
+	void OnPresenterScale9_16(wxCommandEvent& event);
 	void OnRestart(wxCommandEvent& WXUNUSED(event));
 
 	void show(int page);
@@ -41,6 +46,7 @@ public:
  	wxMenuBar *menubar;
 	wxMenu *file;
 	wxMenu *presenter;
+	wxMenu *scale;
 
 	Beamer * beamer;
 
@@ -51,5 +57,10 @@ public:
 
 };
 const int ID_restart=201;
+const int ID_pre1_1=202;
+const int ID_pre4_3=203;
+const int ID_pre3_4=204;
+const int ID_pre16_9=205;
+const int ID_pre9_16=206;
 
 #endif

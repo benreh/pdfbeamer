@@ -32,7 +32,7 @@ public:
 	bool load(const char * filename);
 	bool isLoaded();
 	int n_pages();
-	void render(wxBitmap & bitmap, int w, int h, int page);
+	void render(wxBitmap & bitmap, int w, int h, int page, double stretch=1.0);
 	int limitpage(int page_in);
 	
 private:
