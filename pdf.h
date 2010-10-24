@@ -38,6 +38,7 @@ public:
 	void render(wxBitmap ** bitmap, int w, int h, int page, double stretch=1.0);
 	void render_page(PDFPage & cachepage);
 	int limitpage(int page_in);
+	void clean_cache();
 	std::list<PDFPage *> cache;
 	
 private:

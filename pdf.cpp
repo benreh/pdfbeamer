@@ -55,7 +55,7 @@ bool PDF::load(const char * filename) {
 
 	if (output_dev)
 		output_dev->startDoc(doc->getXRef());
-	cache.clear();
+	clean_cache();
 	
 	return true;
 }
@@ -73,7 +73,7 @@ int PDF::n_pages() {
 
 }
 void PDF::render(wxBitmap ** bitmap, int w, int h, int page, double stretch) {
-	PDFPage * cachepage;
+	PDFPage * cachepage=NULL;
 	bool found=false;
 	for (std::list<PDFPage *>::iterator it=cache.begin();it != cache.end() && found==false; it++){
 		if ((*it)->w==w &&
@@ -115,4 +115,10 @@ void PDF::render_page(PDFPage & cachepage) {
 
 
 	cachepage.bitmap = wxBitmap(wxImage(bmp->getWidth(), bmp->getHeight(),(unsigned char * ) bmp->getDataPtr(),true ));
+}
+void PDF::clean_cache() {
+	for (std::list<PDFPage *>::iterator it=cache.begin();it != cache.end(); it++){
+		delete *it;
+	}
+	cache.clear();
 }
