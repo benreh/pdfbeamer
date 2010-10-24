@@ -24,7 +24,7 @@
 class Beamer : public wxFrame
 {
 public:
-	Beamer(wxFrame* parent, PDF * pdf, wxFrame* myinoff_parent);
+	Beamer(wxFrame* parent, PDF * pdf, int mdis, wxFrame* myinoff_parent);
 
 	wxFrame* inoff_parent;
 	void OnQuit(wxCommandEvent& event);
@@ -33,6 +33,7 @@ public:
 	void update();
 	void maximize();
 
+	int dis;
 	wxBoxSizer *vbox;
 	wxButton *hereb;
 	wxStaticText *m_text;

@@ -19,10 +19,11 @@
 #include "beamer.h"
 
 
-Beamer::Beamer(wxFrame* parent, PDF * pdf, wxFrame* myinoff_parent)
- : wxFrame(NULL, wxID_ANY, wxT("Beamer"), wxDefaultPosition, wxSize(200, 100)) {
+Beamer::Beamer(wxFrame* parent, PDF * pdf, int mdis, wxFrame* myinoff_parent)
+ : wxFrame(NULL, mdis, wxT("Beamer"), wxDefaultPosition, wxSize(200, 100)) {
 	m_parent = new wxPanel(parent, wxID_ANY);
 
+	dis=mdis;
 	inoff_parent=myinoff_parent;
 
 	pdfpanel= new PDFPanel((wxPanel*)this, pdf, true);

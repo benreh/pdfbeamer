@@ -17,13 +17,21 @@
 
 #include "mainwindow.h"
 #include <wx/progdlg.h>
+#include <wx/display.h>
 
 Mainwindow::Mainwindow(const wxString& title)
  : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 400)) {
 	
 	m_parent = new wxPanel(this, wxID_ANY);
+	wxDisplay dis;
+	int n_dis=dis.GetCount();
+	//~ std::cerr << "found " << dis.GetCount() << std::endl;
 
-	beamer = new Beamer(NULL, &pdf, this);
+	if (n_dis==1) {
+		beamer = new Beamer(NULL, &pdf,0, this);
+	} else {
+		beamer = new Beamer(NULL, &pdf,n_dis-1, this);
+	}
 	
 	beamer->Show();
 
@@ -144,10 +152,12 @@ void Mainwindow::OnPrerender(wxCommandEvent& WXUNUSED(event)) {
 	
 }
 void Mainwindow::OnRestart(wxCommandEvent& WXUNUSED(event)) {
+	int dis=0;
 	if (beamer) {
+		dis=beamer->dis;
 		beamer->Close();
 	}
-	beamer = new Beamer(NULL, &pdf, this);
+	beamer = new Beamer(NULL, &pdf,dis, this);
 	beamer->Show();
 	update();
 	
