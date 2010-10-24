@@ -27,7 +27,11 @@ bool MyApp::OnInit(){
     mw->Show(true);
     if (filename!=wxT("")) {
     	mw->pdf.load(filename.mb_str());
-    	mw->update();
+    	if (prerender){
+			wxCommandEvent event;
+			mw->OnPrerender(event);
+		} 
+		mw->update();
 	}
     SetTopWindow(mw);
 
@@ -47,5 +51,6 @@ bool MyApp::OnCmdLineParsed(wxCmdLineParser& parser) {
             //~ files.Add(parser.GetParam(i));
     //~ }
  	filename= parser.GetParam(0);
+ 	prerender=parser.Found( wxT("p") );
     return true;
 }
