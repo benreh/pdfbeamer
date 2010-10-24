@@ -33,6 +33,7 @@ public:
 	bool pm;
 	bool black;
 	double stretch;
+	void prerender(int page);
 
 private:
 	PDF * pdf;

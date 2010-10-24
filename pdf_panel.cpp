@@ -52,11 +52,15 @@ void PDFPanel::update() {
 	int iw, ih; 
     GetClientSize(&iw,&ih);
     pdf->render(&slide, iw, ih, page, stretch);
-
-
     Refresh();
-	
 }
+void PDFPanel::prerender(int page) {
+	int iw, ih; 
+    GetClientSize(&iw,&ih);
+    wxBitmap * dummy=NULL;
+    pdf->render(&dummy, iw, ih, page, stretch);
+}
+
 void PDFPanel::OnResize(wxSizeEvent &e) {
 	update();
 }

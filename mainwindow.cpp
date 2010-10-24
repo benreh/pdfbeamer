@@ -16,7 +16,7 @@
 //      MA 02110-1301, USA.
 
 #include "mainwindow.h"
-
+#include <wx/progdlg.h>
 
 Mainwindow::Mainwindow(const wxString& title)
  : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 400)) {
@@ -33,9 +33,14 @@ Mainwindow::Mainwindow(const wxString& title)
 	file->AppendSeparator();
 	file->Append(wxID_EXIT, wxT("&Quit"));
 
+	cache = new wxMenu;
+	cache->Append(ID_cleanup, wxT("&Clean"));
+	cache->Append(ID_prerender, wxT("&Pre-Render"));
+	
 	presenter = new wxMenu;
 	presenter->Append(ID_restart, wxT("&Restart"));
 	presenter->AppendSeparator();
+
 	scale = new wxMenu;
 	scale->Append(ID_pre1_1, wxT("reset 1:1"));
 	scale->AppendSeparator();
@@ -48,6 +53,7 @@ Mainwindow::Mainwindow(const wxString& title)
 	
 	menubar->Append(file, wxT("&File"));
 	menubar->Append(presenter, wxT("&Presenter"));
+	menubar->Append(cache, wxT("&Cache"));
 	SetMenuBar(menubar);
 
 
@@ -60,6 +66,8 @@ Mainwindow::Mainwindow(const wxString& title)
 	Connect(ID_pre3_4, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale3_4));
 	Connect(ID_pre16_9, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale16_9));
 	Connect(ID_pre9_16, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPresenterScale9_16));
+	Connect(ID_prerender, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnPrerender));
+	Connect(ID_cleanup, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(Mainwindow::OnCleanup));
 
 	wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
 
@@ -112,6 +120,27 @@ void Mainwindow::OnOpen(wxCommandEvent& WXUNUSED(event)) {
  	}
  	show(1);
 	update();
+	
+}
+void Mainwindow::OnCleanup(wxCommandEvent& WXUNUSED(event)) {
+	pdf.clean_cache();
+	update();
+}
+void Mainwindow::OnPrerender(wxCommandEvent& WXUNUSED(event)) {
+	wxProgressDialog * pd;
+	int flags = wxPD_APP_MODAL | wxPD_AUTO_HIDE | wxPD_CAN_SKIP | wxPD_ELAPSED_TIME | wxPD_REMAINING_TIME | wxPD_SMOOTH;
+	pd = new wxProgressDialog(wxT("Rendering"),wxT("Prerendering slides..."), (pdf.n_pages()-1)*3, this,flags);
+	pd->Show();
+	bool skip=false;
+	for (int i = 1; i < pdf.n_pages() && !skip; i++) {
+		m_lp->pdfpanel->prerender(i);
+		pd->Update(i*3+0,wxT(""), &skip);
+		m_rp->pdfpanel->prerender(i);
+		pd->Update(i*3+1,wxT(""), &skip);
+		beamer->pdfpanel->prerender(i);
+		pd->Update(i*3+2,wxT(""), &skip);
+	}
+	delete pd;
 	
 }
 void Mainwindow::OnRestart(wxCommandEvent& WXUNUSED(event)) {

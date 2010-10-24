@@ -40,6 +40,8 @@ public:
 	void OnPresenterScale16_9(wxCommandEvent& event);
 	void OnPresenterScale9_16(wxCommandEvent& event);
 	void OnRestart(wxCommandEvent& WXUNUSED(event));
+	void OnCleanup(wxCommandEvent& WXUNUSED(event));
+	void OnPrerender(wxCommandEvent& WXUNUSED(event));
 
 	void show(int page);
 
@@ -47,6 +49,7 @@ public:
 	wxMenu *file;
 	wxMenu *presenter;
 	wxMenu *scale;
+	wxMenu *cache;
 
 	Beamer * beamer;
 
@@ -62,5 +65,7 @@ const int ID_pre4_3=203;
 const int ID_pre3_4=204;
 const int ID_pre16_9=205;
 const int ID_pre9_16=206;
+const int ID_cleanup=207;
+const int ID_prerender=208;
 
 #endif
