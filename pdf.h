@@ -23,6 +23,9 @@
 #include <SplashOutputDev.h>
 #include <PDFDoc.h>
 #include <wx/wx.h>
+#include <list>
+
+#include "pdfpage.h"
 
 class PDF {
 public:
@@ -33,7 +36,9 @@ public:
 	bool isLoaded();
 	int n_pages();
 	void render(wxBitmap & bitmap, int w, int h, int page, double stretch=1.0);
+	void render_page(PDFPage & cachepage);
 	int limitpage(int page_in);
+	std::list<PDFPage> cache;
 	
 private:
 	PDFDoc * doc;

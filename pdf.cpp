@@ -55,7 +55,8 @@ bool PDF::load(const char * filename) {
 
 	if (output_dev)
 		output_dev->startDoc(doc->getXRef());
-
+	cache.clear();
+	
 	return true;
 }
 bool PDF::isLoaded() {
@@ -72,20 +73,45 @@ int PDF::n_pages() {
 
 }
 void PDF::render(wxBitmap & bitmap, int w, int h, int page, double stretch) {
-	page=limitpage(page);
+	PDFPage cachepage;
+	bool found=false;
+	for (std::list<PDFPage>::iterator it=cache.begin();it != cache.end() && found==false; it++){
+		if (it->w==w &&
+			it->h==h &&
+			it->page==page &&
+			it->stretch==stretch) {
+				cachepage=*it;
+				found=true;
+			}
+	}
+	if (!found){
+		cachepage.w=w;
+		cachepage.h=h;
+		cachepage.page=page;
+		cachepage.stretch=stretch;
+		render_page(cachepage);	
+		cache.push_back(cachepage);
+		//~ std::cerr << "not found " <<cache.size() << std::endl;
+	} else {
+		//~ std::cerr << "found" << std::endl;
+	}
+	bitmap=cachepage.bitmap;
+}
+void PDF::render_page(PDFPage & cachepage) {
+	cachepage.page=limitpage(cachepage.page);
 
 	// 72.0 is the magical number falling from the sky
 	//  ...not really, it is some kind of resolution
 	//     no idea, where to obtain it from
-	double dpi_w = 72.0*w/doc->getPageMediaWidth(page); 
-	double dpi_h = 72.0*h/doc->getPageMediaHeight(page); 
+	double dpi_w = 72.0*cachepage.w/doc->getPageMediaWidth(cachepage.page); 
+	double dpi_h = 72.0*cachepage.h/doc->getPageMediaHeight(cachepage.page); 
 	double dpi = MIN(dpi_w,dpi_h);
 	
-	doc->displayPage(output_dev, page, dpi*stretch, dpi, 0, gFalse, gFalse, gFalse);
+	doc->displayPage(output_dev, cachepage.page, dpi*cachepage.stretch, dpi, 0, gFalse, gFalse, gFalse);
 	SplashBitmap *bmp = output_dev->getBitmap();
 	if (!bmp)
         std::cerr << "error in SplashBitmap" << std::endl;
 
 
-	bitmap = wxBitmap(wxImage(bmp->getWidth(), bmp->getHeight(),(unsigned char * ) bmp->getDataPtr(),true ));
+	cachepage.bitmap = wxBitmap(wxImage(bmp->getWidth(), bmp->getHeight(),(unsigned char * ) bmp->getDataPtr(),true ));
 }

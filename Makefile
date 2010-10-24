@@ -21,7 +21,7 @@ LDFLAGS     = -lm -O2
 CCFLAGS    += -MD -MP -MT $(*F).o -MF dep/$(@F).d
 MY_NAME     = pdfbeamer
 LIBS        = $(shell wx-config --libs ) $(shell pkg-config --libs poppler-splash)
-MYOBJECTS   = main.o mainwindow.o panel.o pdf_panel.o pdf.o beamer.o
+MYOBJECTS   = main.o mainwindow.o panel.o pdf_panel.o pdf.o beamer.o pdfpage.o
 
 
 
