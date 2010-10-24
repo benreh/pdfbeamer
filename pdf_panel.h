@@ -37,7 +37,7 @@ public:
 private:
 	PDF * pdf;
 	wxStaticText *m_text;
-	wxBitmap slide;
+	wxBitmap * slide;
 	DECLARE_EVENT_TABLE()
 	
 };

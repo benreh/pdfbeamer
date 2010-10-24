@@ -24,6 +24,7 @@ PDFPanel::PDFPanel(wxPanel * parent, PDF * newpdf, bool presentationmode)
     pm=presentationmode;
  	m_text = new wxStaticText(this, -1, wxT(""), wxPoint(0, 0));
 	page=1;
+	slide=NULL;
 	stretch=1.0;
 	black=false;
  	pdf=newpdf;
@@ -50,7 +51,7 @@ void PDFPanel::update() {
 	}
 	int iw, ih; 
     GetClientSize(&iw,&ih);
-    pdf->render(slide, iw, ih, page, stretch);
+    pdf->render(&slide, iw, ih, page, stretch);
 
 
     Refresh();
@@ -65,12 +66,11 @@ void PDFPanel::OnPaint(wxPaintEvent& event) {
 	if (black)
 		return;
 	int iw, ih;
-
-	GetClientSize(&iw, &ih);
-	iw = (iw - slide.GetWidth())/2;
-	ih = (ih - slide.GetHeight())/2;
-	if (slide.Ok()) {
-		dc.DrawBitmap(slide, iw, ih, true);
+	if (slide!=NULL && slide->Ok()) {
+		GetClientSize(&iw, &ih);
+		iw = (iw - slide->GetWidth())/2;
+		ih = (ih - slide->GetHeight())/2;
+		dc.DrawBitmap(*slide, iw, ih, true);
 	} 
 
 }

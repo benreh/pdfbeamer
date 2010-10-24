@@ -72,30 +72,31 @@ int PDF::n_pages() {
 	return doc->getNumPages();
 
 }
-void PDF::render(wxBitmap & bitmap, int w, int h, int page, double stretch) {
-	PDFPage cachepage;
+void PDF::render(wxBitmap ** bitmap, int w, int h, int page, double stretch) {
+	PDFPage * cachepage;
 	bool found=false;
-	for (std::list<PDFPage>::iterator it=cache.begin();it != cache.end() && found==false; it++){
-		if (it->w==w &&
-			it->h==h &&
-			it->page==page &&
-			it->stretch==stretch) {
-				cachepage=*it;
+	for (std::list<PDFPage *>::iterator it=cache.begin();it != cache.end() && found==false; it++){
+		if ((*it)->w==w &&
+			(*it)->h==h &&
+			(*it)->page==page &&
+			(*it)->stretch==stretch) {
+				cachepage=(*it);
 				found=true;
 			}
 	}
 	if (!found){
-		cachepage.w=w;
-		cachepage.h=h;
-		cachepage.page=page;
-		cachepage.stretch=stretch;
-		render_page(cachepage);	
+		cachepage= new PDFPage();
+		cachepage->w=w;
+		cachepage->h=h;
+		cachepage->page=page;
+		cachepage->stretch=stretch;
+		render_page(*cachepage);	
 		cache.push_back(cachepage);
 		//~ std::cerr << "not found " <<cache.size() << std::endl;
 	} else {
 		//~ std::cerr << "found" << std::endl;
 	}
-	bitmap=cachepage.bitmap;
+	*bitmap=&(cachepage->bitmap);
 }
 void PDF::render_page(PDFPage & cachepage) {
 	cachepage.page=limitpage(cachepage.page);
