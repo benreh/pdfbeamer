@@ -20,10 +20,32 @@
 
 IMPLEMENT_APP(MyApp)
 
-bool MyApp::OnInit()
-{
+bool MyApp::OnInit(){
+	if (!wxApp::OnInit())
+        return false;
     Mainwindow *mw = new Mainwindow(wxT("pdfbeamer"));
     mw->Show(true);
+    if (filename!=wxT("")) {
+    	mw->pdf.load(filename.mb_str());
+    	mw->update();
+	}
+    SetTopWindow(mw);
 
+    return true;
+}
+void MyApp::OnInitCmdLine(wxCmdLineParser& parser) {
+    parser.SetDesc (g_cmdLineDesc);
+    // must refuse '/' as parameter starter or cannot use "/path" style paths
+    parser.SetSwitchChars (wxT("-"));
+}
+ 
+bool MyApp::OnCmdLineParsed(wxCmdLineParser& parser) {
+ 
+    // to get at your unnamed parameters use
+    //~ wxArrayString files;
+    //~ for (unsigned i = 0; i < parser.GetParamCount(); i++) {
+            //~ files.Add(parser.GetParam(i));
+    //~ }
+ 	filename= parser.GetParam(0);
     return true;
 }
