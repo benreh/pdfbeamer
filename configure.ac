@@ -43,6 +43,6 @@ AC_HEADER_STDBOOL
 AC_FUNC_FORK
 AC_CHECK_FUNCS([bzero dup2 select])
 
-AC_CONFIG_FILES([Makefile 
+AC_CONFIG_FILES([Makefile
 				])
 AC_OUTPUT
