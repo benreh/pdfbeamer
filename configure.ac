@@ -60,9 +60,6 @@ AC_SUBST(DEPS_LIBS)
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h string.h strings.h termios.h])
 
-AC_PROG_LIBTOOL
-AC_SUBST(LIBTOOL_DEPS)
-
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 
